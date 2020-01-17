@@ -6,7 +6,7 @@ $route['default_controller'] = 'main';
 
 //  GLOBAL
 $route['logout']            = 'auth/logout';
-$route['register']          = 'auth/register';
+$route['daftar']            = 'auth/register';
 $route['login']             = 'auth/login';
 $route['(:any)/login']      = 'auth/login/$1';
 
