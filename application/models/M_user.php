@@ -75,6 +75,15 @@
   		return $this->db->insert('tb_provider', $data);
     }
 
+    // update data profil superadmin
+    public function set_update_profil_superadmin($emailBaru, $username){
+  		$data = array(
+  		  "email"  => $emailBaru,
+  		);
+      $this->db->where('username', $username);
+  		return $this->db->update('tb_user', $data);
+    }
+
 
 //  ===============================================GETTER===============================================
     // get semua member dari tb_member dan tb_user

@@ -115,12 +115,12 @@ class CS_main extends CI_Controller {
 			$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
 			$this->load->view($this->header['tipeAkun'] . '/v_add_provider');
 			$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
-		// jika masuk ke add_member dan sudah isi data sesuai rules pada "config/form_validation.php"
+		// jika masuk ke add_provider dan sudah isi data sesuai rules pada "config/form_validation.php"
 		}else {
 			$post 						= $this->input->post();
 			$id								= 'pro_'.$post['username'];
 			$post['username']	= 'pro_'.$post['username'];
-			$post['password']	= password_hash($post['password'], PASSWORD_ARGON2I);
+			$post['password']	= password_hash($post['password'], PASSWORD_BCRYPT);
 			$newUser 					= $this->M_user->set_new_user			($post['username'], $post['email'], $post['password'], $post['privilege']);
 			$newProvider 			= $this->M_user->set_new_provider	($id, $post['nama'], $post['no_telepon'], $post['alamat'],
 																														$post['openAt'], $post['closeAt'], $post['username']);
@@ -187,9 +187,36 @@ class CS_main extends CI_Controller {
 		);
 		$this->header = array_merge($this->header1, $this->header2);
 
-		$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
-		$this->load->view($this->header['tipeAkun'] . '/v_profil');
-		$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
+		$this->form_validation->set_rules('email', 'email', 'required|valid_email|max_length[50]');
+		$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+
+		// jika masuk ke profil dan belum isi data pada form
+		if ($this->form_validation->run() == false) {
+			$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
+			$this->load->view($this->header['tipeAkun'] . '/v_profil');
+			$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
+		// jika masuk ke profil dan sudah isi data sesuai rules diatas
+		}else {
+			$post	= $this->input->post();
+			$editProfil = $this->M_user->set_update_profil_superadmin($post['email'], $this->session->userdata('username'));
+			// jika sukses eksekusi query $editProfil
+			if ($editProfil == TRUE) {
+				$this->session->set_flashdata('success_message', 1);
+				$this->session->set_flashdata('title', 'Ubah Data Profil Sukses !');
+				$this->session->set_flashdata('text', 'Data Profil Berhasil Diperbarui !');
+				// ambil data terupdate untuk dimasukkan ke dalam session
+				// kemudian masukkan data baru yg sudah difetch ke dalam session
+				$user = $this->M_user->get_user_by_username_email($this->session->userdata('username'))->row();
+				$this->session->set_userdata('email', $user->email);
+				redirect(current_url());
+			// jika gagal eksekusi query $editProfil, berarti ada yg salah harus crosscheck kodingan
+			}else {
+				$this->session->set_flashdata('failed_message', 1);
+				$this->session->set_flashdata('title', 'Ubah Data Profil Gagal !');
+				$this->session->set_flashdata('text', 'Data Profil Gagal Diperbarui !');
+				redirect(current_url());
+			}
+		}
 	}
 
 	public function ubah_password()

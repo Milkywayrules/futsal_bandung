@@ -53,7 +53,7 @@ class Auth extends CI_Controller {
 		$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
 
 		$header = array(
-			'tabTitle' => 'Login ' . ucfirst($tipeLogin),
+			'tabTitle' 	=> 'Login ' . ucfirst($tipeLogin),
       'tipeLogin' =>  ucfirst($tipeLogin),
 		);
 		if ($this->form_validation->run() == FALSE){
