@@ -31,7 +31,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                         <div class="row justify-content-center py-3 px-5">
-                          <img src=<?php echo base_url("assets/img/iconprofil/{$user->foto_profil}") ?> alt="Avatar" width="150px">
+                          <img src=<?php echo base_url("assets/img/member/foto_profil/{$user->foto_profil}") ?> alt="Avatar" width="150px">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -45,22 +45,22 @@
                           <tr>
                             <td>Username</td>
                             <td class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->username ?>" class="form-control"> </td>
+                            <td> <input type="text" name="username" value="<?php echo $user->username ?>" class="form-control"> </td>
                           </tr>
                           <tr>
                             <td>E-mail</td>
                             <td class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->email ?>" class="form-control"> </td>
+                            <td> <input type="text" name="email" value="<?php echo $user->email ?>" class="form-control"> </td>
                           </tr>
                           <tr>
                             <td>No Telepon</td>
                             <td class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->no_telepon ?>" class="form-control"> </td>
+                            <td> <input type="text" name="no_telepon" value="<?php echo $user->no_telepon ?>" class="form-control"> </td>
                           </tr>
                           <tr>
                             <td>Alamat</td>
                             <td class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->alamat ?>" class="form-control"> </td>
+                            <td> <textarea name="alamat" rows="2" cols="35" class="form-control"><?php echo $user->alamat ?></textarea> </td>
                           </tr>
                           <tr>
                             <td>Status</td>
@@ -73,10 +73,10 @@
                             <td>
                               <div class="btn-group btn-group-toggle my-1" data-toggle="buttons">
                                 <label class="btn btn-sm btn-<?php echo ($user->is_active==0)?('danger active'):('secondary '); ?>">
-                                  <input type="radio" name="statusAktif" id="option2" autocomplete="off"> <i class="fa fa-times my-1 mx-2"></i>
+                                  <input type="radio" name="statusAktif" id="option1" autocomplete="off"> <i class="fa fa-times my-1 mx-2"></i>
                                 </label>
                                 <label class="btn btn-sm btn-<?php echo ($user->is_active==1)?('success active'):('secondary'); ?>">
-                                  <input type="radio" name="statusAktif" id="option1" autocomplete="off"> <i class="fa fa-check my-1 mx-2"></i>
+                                  <input type="radio" name="statusAktif" id="option2" autocomplete="off"> <i class="fa fa-check my-1 mx-2"></i>
                                 </label>
                               </div>
                             </td>
@@ -94,7 +94,7 @@
                   <hr>
                   <div class="row justify-content-center">
                     <a href=<?php echo base_url("{$this->session->userdata('privilege')}/data-member") ?> class="btn btn-secondary mx-1">Kembali</a>
-                    <a href=<?php echo base_url("{$this->session->userdata('privilege')}/data-member") ?> class="btn btn-success mx-1">Simpan</a>
+                    <a href=<?php echo current_url() ?> class="btn btn-success mx-1">Simpan</a>
                   </div>
                 </div>
               </div>

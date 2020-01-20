@@ -135,10 +135,23 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo 'Bonjour, <b>' . $this->session->userdata('username') . '</b>'; ?></span>
-                <img class="img-profile rounded-circle" src=<?php echo base_url("assets/img/iconprofil/1.png") ?>>
+                <!-- AMBIL GAMBAR FOTO PROFIL SESUAI AKUN LOGIN -->
+                <?php if ($this->session->userdata('privilege') == 'member'): ?>
+                  <img class="img-profile rounded-circle" src=<?php echo base_url("assets/img/{$this->session->userdata('privilege')}/foto_profil/{$this->session->userdata('foto_profil')}") ?>>
+                <?php endif; ?>
+                <?php if ($this->session->userdata('privilege') == 'provider'): ?>
+                  <img class="img-profile rounded-circle" src=<?php echo base_url("assets/img/{$this->session->userdata('privilege')}/logo/{$this->session->userdata('logo')}") ?>>
+                <?php endif; ?>
+                <?php if ($this->session->userdata('privilege') == 'superadmin'): ?>
+                  <img class="img-profile rounded-circle" src=<?php echo base_url("assets/img/{$this->session->userdata('privilege')}/foto_profil/1.png") ?>>
+                <?php endif; ?>
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href=<?php echo base_url("") ?>>
+                  <i class="fas fa-ethernet fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Halaman Utama
+                </a>
                 <a class="dropdown-item" href=<?php echo base_url("{$tipeAkun}/profil") ?>>
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profil

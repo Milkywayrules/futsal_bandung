@@ -26,16 +26,16 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="row justify-content-center py-3 px-5">
-                          <img src=<?php echo base_url("assets/img/logoprovider/futsal.png") ?> alt="Futsal" width="150px">
+                          <img src=<?php echo base_url("assets/img/provider/logo/{$user->logo}") ?> alt="Futsal" width="150px">
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-9">
                       <table>
                         <tbody>
                           <tr>
-                            <td>Nama</td>
+                            <td width='25%'>Nama</td>
                             <td width='10%' class="text-center">:</td>
                             <td> <?php echo $user->nama ?> </td>
                           </tr>
@@ -101,6 +101,7 @@
                   <hr>
                   <div class="row justify-content-center">
                     <a href=<?php echo base_url("{$this->session->userdata('privilege')}/data-provider") ?> class="btn btn-secondary">Kembali</a>
+                    <a href=<?php echo base_url("{$this->session->userdata('privilege')}/data-provider/edit/{$user->username}") ?> class="btn btn-info mx-1">Ubah</a>
                   </div>
                 </div>
               </div>

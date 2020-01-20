@@ -12,15 +12,7 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-		if ($this->session->userdata('privilege') == 'superadmin') {
-			redirect('superadmin', 'refresh');
-		}elseif ($this->session->userdata('privilege') == 'provider') {
-			redirect('provider', 'refresh');
-		}elseif ($this->session->userdata('privilege') == 'member') {
-			redirect('u', 'refresh');
-		}else {
-			$this->load->view('v_home');
-		}
+		$this->load->view('v_home');
 	}
 
 	public function pwgen()

@@ -29,18 +29,18 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="row justify-content-center py-3 px-5">
-                          <img src=<?php echo base_url("assets/img/logoprovider/futsal.png") ?> alt="Futsal" width="150px">
+                          <img src=<?php echo base_url("assets/img/provider/logo/{$user->logo}") ?> alt="Futsal" width="150px">
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-9">
                       <table>
                         <tbody>
                           <tr>
                             <td>Nama</td>
                             <td width='10%' class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->nama ?>" class="form-control"> </td>
+                            <td width='60%'> <input type="text" name="nama" value="<?php echo $user->nama ?>" class="form-control"> </td>
                           </tr>
                           <tr>
                             <td>E-mail</td>
@@ -55,7 +55,7 @@
                           <tr>
                             <td>Alamat</td>
                             <td class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->alamat ?>" class="form-control"> </td>
+                            <td> <textarea name="alamat" rows="2" cols="35" class="form-control"><?php echo $user->alamat ?></textarea> </td>
                           </tr>
                           <tr>
                             <td>Jumlah Lapangan</td>
@@ -63,19 +63,21 @@
                             <td> <input type="text" name="nama" value="<?php echo $user->jumlah_lapangan ?>" class="form-control" disabled> </td>
                           </tr>
                           <tr>
-                            <td>Jadwal Buka & Tutup</td>
+                            <td>Jam Buka</td>
                             <td class="text-center">:</td>
-                            <td>
-                              <time><?php echo date('H:i', strtotime($user->open_at)) ?></time>
-                              <span> - </span>
-                              <time><?php echo date('H:i', strtotime($user->close_at)) ?></time>
-                              <span>WIB</span>
+                            <td> <input type="time" name="openAt" class="form-control" value=<?php echo date('H:i', strtotime($user->open_at)) ?>>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Jam Tutup</td>
+                            <td class="text-center">:</td>
+                            <td> <input type="time" name="closeAt" class="form-control" value=<?php echo date('H:i', strtotime($user->close_at)) ?>>
                             </td>
                           </tr>
                           <tr>
                             <td>Keterangan</td>
                             <td class="text-center">:</td>
-                            <td> <input type="text" name="nama" value="<?php echo $user->keterangan ?>" class="form-control"> </td>
+                            <td> <textarea name="keterangan" rows="5" cols="35" class="form-control"><?php echo $user->keterangan ?></textarea> </td>
                           </tr>
                           <tr>
                             <td> <hr> </td><td> <hr> </td><td> <hr> </td>

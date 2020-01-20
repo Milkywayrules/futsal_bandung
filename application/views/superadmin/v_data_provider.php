@@ -49,7 +49,7 @@
                         <td><?php echo $provider->alamat ?></td>
                         <td class="">
                           <a href=<?php echo current_url() . "/detail/{$provider->username}" ?> class="btn-sm btn-primary my-1 text-decoration-none">Detail</a>
-                          <a href=<?php echo current_url() . "/edit/{$provider->username}" ?> class="btn-sm btn-info my-1 text-decoration-none">Edit</a>
+                          <a href=<?php echo current_url() . "/edit/{$provider->username}" ?> class="btn-sm btn-info my-1 text-decoration-none">Ubah</a>
                         </td>
                       </tr>
                     <?php endforeach; ?>

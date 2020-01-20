@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2020 at 03:26 PM
+-- Generation Time: Jan 20, 2020 at 02:25 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -73,6 +73,7 @@ CREATE TABLE `tb_lapangan` (
   `open_at` time NOT NULL,
   `close_at` time NOT NULL,
   `keterangan` text NOT NULL,
+  `foto_lapangan` varchar(50) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_provider` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -88,7 +89,7 @@ CREATE TABLE `tb_member` (
   `nama` varchar(50) NOT NULL,
   `no_telepon` varchar(15) NOT NULL,
   `alamat` text NOT NULL,
-  `foto_profil` varchar(200) NOT NULL,
+  `foto_profil` varchar(50) NOT NULL,
   `username` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -98,7 +99,8 @@ CREATE TABLE `tb_member` (
 
 INSERT INTO `tb_member` (`id`, `nama`, `no_telepon`, `alamat`, `foto_profil`, `username`) VALUES
 (1, 'Marx Monroe', '0812374882', 'Jalan Ir. H. Djuanda', '1.png', 'member'),
-(2, 'Hitler', '087123884722', 'Jauh disana', '4.png', 'member2');
+(2, 'Hitler', '087123884722', 'Jauh disana', '4.png', 'member2'),
+(3, 'Atlas', '', '', '6.png', 'member3');
 
 -- --------------------------------------------------------
 
@@ -115,7 +117,8 @@ CREATE TABLE `tb_provider` (
   `open_at` time NOT NULL,
   `close_at` time NOT NULL,
   `jumlah_lapangan` int(2) NOT NULL,
-  `logo` varchar(200) NOT NULL DEFAULT 'futsal.png',
+  `logo` varchar(50) NOT NULL DEFAULT 'futsal.png',
+  `foto_tempat` varchar(50) NOT NULL,
   `keterangan` text NOT NULL,
   `username` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -124,8 +127,9 @@ CREATE TABLE `tb_provider` (
 -- Dumping data for table `tb_provider`
 --
 
-INSERT INTO `tb_provider` (`no`, `id`, `nama`, `no_telepon`, `alamat`, `open_at`, `close_at`, `jumlah_lapangan`, `logo`, `keterangan`, `username`) VALUES
-(1, 'pro_campnou', 'Camp Nou', '08771299983', 'Barcelona, Spanyol', '08:00:00', '21:00:00', 3, 'futsal.png', 'Tes aja doang', 'pro_campnou');
+INSERT INTO `tb_provider` (`no`, `id`, `nama`, `no_telepon`, `alamat`, `open_at`, `close_at`, `jumlah_lapangan`, `logo`, `foto_tempat`, `keterangan`, `username`) VALUES
+(1, 'pro_campnou', 'Camp Nou', '08771299983', 'Barcelona, Spanyol', '08:00:00', '21:00:00', 3, 'futsal.png', '', 'Tes aja doang', 'pro_campnou'),
+(2, 'pro_gbk', 'Gelora Bung Karno', '089389292771', 'Jalan kenangan diatas lembu', '09:00:00', '21:00:00', 0, 'futsal.png', '', 'Silakan isi keterangan tambahan yang dibutuhkan sebagai penunjang untuk member memahami.', 'pro_gbk');
 
 -- --------------------------------------------------------
 
@@ -150,7 +154,9 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user` (`no`, `email`, `username`, `password`, `privilege`, `is_active`, `created_at`) VALUES
 (3, 'member@msn.com', 'member', '$argon2i$v=19$m=1024,t=2,p=2$RlNKTExKRnduQWxjZnBESA$3vhBjQyc0Sn4zw2593LnSgt7RyeM+XeEEblvhrpZXHs', 'member', '1', '2020-01-17 06:55:06'),
 (4, 'member2@msn.com', 'member2', '$argon2i$v=19$m=1024,t=2,p=2$V004M0VQcmQyb2tKTG5ZVg$af9vJRxvmWpDoNFPI4DeshaMHNItn75BUh3C+hs4yzU', 'member', '1', '2020-01-17 10:03:53'),
+(5, 'member3@msn.com', 'member3', '$argon2i$v=19$m=1024,t=2,p=2$OUtvd1ZJeWw5WC9UaHdXTQ$5HSyEp+8UTpCoMApCAgjG7Hw7pZHSkYTZQ7bHpV3JpU', 'member', '1', '2020-01-20 18:46:24'),
 (2, 'campnou@msn.com', 'pro_campnou', '$argon2i$v=19$m=1024,t=2,p=2$WHpzZk02dDlGM3F1TWJOcg$bzTmglnqxGU7YmVZO9n5ZbtZvvT0JqwfbcFyhp2bM5A', 'provider', '1', '2020-01-17 06:39:05'),
+(6, 'gbk@msn.com', 'pro_gbk', '$argon2i$v=19$m=1024,t=2,p=2$SjF1Uy8vL3ZyMnNGR3Q5Tw$9vQaNkmwkvDJuZ+OAcMlYVijQWg0jvUtb98E7TLrq6Q', 'provider', '1', '2020-01-20 19:07:07'),
 (1, 'superadmin@msn.com', 'superadmin', '$argon2i$v=19$m=1024,t=2,p=2$UWhEcW5GaHlwUXdpTFpDdQ$wt+SjHHZMRVoQ/nGMjewkgFMr+W11ssQaStiEEYigb0', 'superadmin', '1', '2020-01-16 23:55:01');
 
 --
@@ -216,19 +222,19 @@ ALTER TABLE `tb_bayar_booking`
 -- AUTO_INCREMENT for table `tb_member`
 --
 ALTER TABLE `tb_member`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_provider`
 --
 ALTER TABLE `tb_provider`
-  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `no` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `no` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

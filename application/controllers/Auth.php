@@ -66,7 +66,6 @@ class Auth extends CI_Controller {
 			if ( $query != false ) {
 				// jika email dan privilege >= 5 terdaftar pada db
 				$user = $query->row();
-
 				// lalu cek apakah password sesuai dengan db
 				// jika benar akun terdaftar pada tb_user
 				if ( password_verify($this->input->post('password', true), $user->password) ) {
@@ -83,23 +82,17 @@ class Auth extends CI_Controller {
 						$query = $this->M_user->get_member_by_username($user->username);
 						$member = $query->row();
 						// set session userdata
-						$this->session->set_userdata('id', $member->id);
-						$this->session->set_userdata('nama', $member->nama);
-						$this->session->set_userdata('username', $member->username);
-						redirect(base_url('member'));
+						$this->session->set_userdata((array)$member);
+						redirect(base_url(''));
 
 					// PROVIDER
 				}elseif ($user->privilege == 'provider' AND $tipeLogin == 'provider') {
 						// get info dari tb_provider
 						$query = $this->M_user->get_provider_by_username($user->username);
-						echo "<pre>";
-						print_r($user->privilege);die();
 						$provider = $query->row();
 						// set session userdata
-						$this->session->set_userdata('id', $provider->id);
-						$this->session->set_userdata('nama', $provider->nama);
-						$this->session->set_userdata('username', $provider->username);
-						redirect(base_url('provider'));
+						$this->session->set_userdata((array)$provider);
+						redirect(base_url('p/dashboard'));
 
 					// SUPERADMIN
 				}elseif ($user->privilege == 'superadmin' AND $tipeLogin == 'superadmin') {
@@ -226,10 +219,14 @@ class Auth extends CI_Controller {
 
 //  ===============================================LOGOUT===============================================
   public function logout(){
-
     $this->session->sess_destroy();
+		redirect(base_url('auth/logout_sw'));
+  }
+	public function logout_sw(){
+		$this->session->set_flashdata('success_message', 1);
+		$this->session->set_flashdata('title', 'Berhasil logout!');
+		$this->session->set_flashdata('text', 'Sampai berjumpa kembali dilain waktu');
 		redirect(base_url());
-
   }
 
 }

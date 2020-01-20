@@ -6,48 +6,72 @@
   class M_user extends CI_Model
   {
 
-    var $table = 'tb_user';
+    var $tb_user = 'tb_user';
+    var $tb_provider = 'tb_provider';
+    var $tb_member = 'tb_member';
 
 //  ===============================================SETTER===============================================
     // daftar user baru
-    public function set_new_user($username, $email, $password, $privilege, $isActive){
+    public function set_new_user($username, $email, $password, $privilege){
       $createdAt = unix_to_human(now(), true, 'europe');
   		$data = array(
   		  "username"    => $username,
   		  "email"       => $email,
   		  "password"    => $password,
   		  "privilege"   => $privilege,
-        "is_active"   => $isActive,
+        "is_active"   => '1',
         "created_at"  => $createdAt,
   		);
-
   		return $this->db->insert('tb_user', $data);
     }
-    // daftar provider baru
-    public function set_new_provider($id, $nama, $noTelepon, $alamat, $openAt, $closeAt, $jumlahLapangan, $keterangan, $username){
+
+    // daftar member baru
+    public function set_new_member($nama, $noTelepon, $alamat, $fotoProfil, $username){
   		$data = array(
-  		  "id"              => $id,
   		  "nama"            => $nama,
   		  "no_telepon"      => $noTelepon,
   		  "alamat"          => $alamat,
+        "foto_profil"     => $fotoProfil,
+        "username"        => $username,
+  		);
+  		return $this->db->insert('tb_member', $data);
+    }
+
+    // daftar provider baru
+    public function set_new_provider($id, $nama, $noTelepon, $alamat, $openAt, $closeAt, $username){
+      $data = array(
+        "id"              => $id,
+        "nama"            => $nama,
+        "no_telepon"      => $noTelepon,
+        "alamat"          => $alamat,
         "open_at"         => $openAt,
         "close_at"        => $closeAt,
-        "jumlah_lapangan" => $jumlahLapangan,
-        "keterangan"      => $keterangan,
+        "jumlah_lapangan" => 0,
+        "keterangan"      => 'Silakan isi keterangan tambahan yang dibutuhkan sebagai penunjang untuk member memahami.',
         "username"        => $username,
-  		);
-
-  		return $this->db->insert('tb_provider', $data);
+      );
+      return $this->db->insert('tb_provider', $data);
     }
-    // daftar member baru
-    public function set_new_member($nama, $noTelepon, $alamat, $username){
+
+    // update data member
+    public function set_update_member($nama, $noTelepon, $alamat, $username){
   		$data = array(
   		  "nama"            => $nama,
   		  "no_telepon"      => $noTelepon,
   		  "alamat"          => $alamat,
         "username"        => $username,
   		);
+  		return $this->db->insert('tb_provider', $data);
+    }
 
+    // update data provider
+    public function set_update_provider($nama, $noTelepon, $alamat, $username){
+  		$data = array(
+  		  "nama"            => $nama,
+  		  "no_telepon"      => $noTelepon,
+  		  "alamat"          => $alamat,
+        "username"        => $username,
+  		);
   		return $this->db->insert('tb_provider', $data);
     }
 
@@ -63,28 +87,33 @@
       }
       return 0;
     }
+
     // get semua member dari tb_member dan tb_user
     public function get_all_member(){
       // insert data register ke db
       $this->db->from('tb_member');
       $this->db->join('tb_user', 'tb_user.username=tb_member.username');
+      $this->db->order_by('tb_user.no', 'desc');
       $query = $this->db->get();
       if ( $query->num_rows() != 0) {
         return $query;
       }
       return 0;
     }
+
     // get semua member dari tb_member dan tb_user
     public function get_all_provider(){
       // insert data register ke db
       $this->db->from('tb_provider');
       $this->db->join('tb_user', 'tb_user.username=tb_provider.username');
+      $this->db->order_by('tb_user.no', 'desc');
       $query = $this->db->get();
       if ( $query->num_rows() != 0) {
         return $query;
       }
       return 0;
     }
+
     // get 1 user berdasarkan username / email
     public function get_user_by_username_email($emailUsername){
       // insert data register ke db
@@ -97,6 +126,7 @@
       }
       return false;
     }
+
     // get 1 member berdasarkan username dari tb_member dan tb_user
     public function get_member_by_username($username){
       // insert data register ke db
@@ -109,6 +139,7 @@
       }
       return false;
     }
+
     // get 1 provider berdasarkan username dari tb_provider dan tb_user
     public function get_provider_by_username($username){
       // insert data register ke db

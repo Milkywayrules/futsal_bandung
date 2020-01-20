@@ -23,8 +23,9 @@ $route['p/(:any)']          = 'provider/CP_main/$1';
 $route['p']                 = 'provider/CP_main';
 
 //  MEMBER
-$route['u/(:any)']          = 'member/CM_main/$1';
-$route['u']                 = 'member/CM_main';
+$route['m']                 = 'member/CM_main';
+$route['m/dashboard']       = 'member/CM_main';
+$route['m/(:any)']          = 'member/CM_main/$1';
 
 
 

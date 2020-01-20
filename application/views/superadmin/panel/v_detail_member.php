@@ -28,7 +28,7 @@
                   <div class="row">
                     <div class="col-lg-4">
                         <div class="row justify-content-center py-3 px-5">
-                          <img src=<?php echo base_url("assets/img/iconprofil/{$user->foto_profil}") ?> alt="Avatar" width="150px">
+                          <img src=<?php echo base_url("assets/img/member/foto_profil/{$user->foto_profil}") ?> alt="Avatar" width="150px">
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -82,6 +82,7 @@
                   <hr>
                   <div class="row justify-content-center">
                     <a href=<?php echo base_url("{$this->session->userdata('privilege')}/data-member") ?> class="btn btn-secondary">Kembali</a>
+                    <a href=<?php echo base_url("{$this->session->userdata('privilege')}/data-member/edit/{$user->username}") ?> class="btn btn-info mx-1">Ubah</a>
                   </div>
                 </div>
               </div>

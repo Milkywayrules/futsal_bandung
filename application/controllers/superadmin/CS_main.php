@@ -74,10 +74,32 @@ class CS_main extends CI_Controller {
 			'active' 			=> 'add_member',
 		);
 		$this->header = array_merge($this->header1, $this->header2);
-
-		$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
-		$this->load->view($this->header['tipeAkun'] . '/v_add_member');
-		$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
+		// jika masuk ke add_member dan belum isi data pada form
+		if ($this->form_validation->run('add_member') == false) {
+			$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
+			$this->load->view($this->header['tipeAkun'] . '/v_add_member');
+			$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
+		// jika masuk ke add_member dan sudah isi data sesuai rules pada "config/form_validation.php"
+		}else {
+			$post 						= $this->input->post();
+			$fotoProfil				= mt_rand(1, 6).'.png';
+			$post['password']	= password_hash($post['password'], PASSWORD_ARGON2I);
+			$newUser 					= $this->M_user->set_new_user		($post['username'], $post['email'], $post['password'], $post['privilege']);
+			$newMember 				= $this->M_user->set_new_member	($post['nama'], $post['no_telepon'], $post['alamat'], $fotoProfil, $post['username']);
+			// jika sukses eksekusi query $newUser dan $newMember
+			if ($newUser == TRUE AND $newMember == TRUE) {
+				$this->session->set_flashdata('success_message', 1);
+				$this->session->set_flashdata('title', 'Tambah Member Sukses !');
+				$this->session->set_flashdata('text', 'Member baru berhasil ditambah !');
+				redirect(current_url());
+			// jika gagal eksekusi query $newUser dan/atau $newMember, berarti ada yg salah harus crosscheck kodingan
+			}else {
+				$this->session->set_flashdata('failed_message', 1);
+				$this->session->set_flashdata('title', 'Tambah Member Gagal !');
+				$this->session->set_flashdata('text', 'Member baru gagal ditambah !');
+				redirect(current_url());
+			}
+		}
 	}
 
 	public function add_provider()
@@ -88,10 +110,34 @@ class CS_main extends CI_Controller {
 			'active' 			=> 'add_provider',
 		);
 		$this->header = array_merge($this->header1, $this->header2);
-
-		$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
-		$this->load->view($this->header['tipeAkun'] . '/v_add_provider');
-		$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
+		// jika masuk ke add_provider dan belum isi data pada form
+		if ($this->form_validation->run('add_provider') == false) {
+			$this->load->view($this->header['tipeAkun'] . '/template/v_header', $this->header);
+			$this->load->view($this->header['tipeAkun'] . '/v_add_provider');
+			$this->load->view($this->header['tipeAkun'] . '/template/v_footer');
+		// jika masuk ke add_member dan sudah isi data sesuai rules pada "config/form_validation.php"
+		}else {
+			$post 						= $this->input->post();
+			$id								= 'pro_'.$post['username'];
+			$post['username']	= 'pro_'.$post['username'];
+			$post['password']	= password_hash($post['password'], PASSWORD_ARGON2I);
+			$newUser 					= $this->M_user->set_new_user			($post['username'], $post['email'], $post['password'], $post['privilege']);
+			$newProvider 			= $this->M_user->set_new_provider	($id, $post['nama'], $post['no_telepon'], $post['alamat'],
+																														$post['openAt'], $post['closeAt'], $post['username']);
+			// jika sukses eksekusi query $newUser dan $newProvider
+			if ($newProvider == TRUE AND $newProvider == TRUE) {
+				$this->session->set_flashdata('success_message', 1);
+				$this->session->set_flashdata('title', 'Tambah Provider Sukses !');
+				$this->session->set_flashdata('text', 'Provider baru berhasil ditambah !');
+				redirect(current_url());
+			// jika gagal eksekusi query $newUser dan/atau $newProvider, berarti ada yg salah harus crosscheck kodingan
+			}else {
+				$this->session->set_flashdata('failed_message', 1);
+				$this->session->set_flashdata('title', 'Tambah Provider Gagal !');
+				$this->session->set_flashdata('text', 'Provider baru gagal ditambah !');
+				redirect(current_url());
+			}
+		}
 	}
 
 //  ===============================================TAMPILKAN DATA===============================================

@@ -1,3 +1,19 @@
+
+
+<?php
+
+  // ambil privilege dari session u/ tau jenis akun yg sedang login
+  $dashboard = $this->session->userdata('privilege');
+  // jika bukan superadmin yg login, maka
+  // tambah m (member) atau p (provider) dan "/dashboard" pada akhir url
+  if ($dashboard != 'superadmin') {
+    $dashboard = substr($dashboard, 0, 1);
+    $dashboard = "{$dashboard}/dashboard";
+  }
+
+ ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,16 +23,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
+  <link rel="icon" href=<?php echo base_url("assets/img/icontab/futsal2.png") ?>>
 
-  <title>{NAMA PENYEDIA LAPANGAN}</title>
+  <title>{NAMA PROVIDER}</title>
 
   <!-- Custom fonts for this theme -->
-  <link href=<?php echo base_url("assets/template/sbadmin/vendor/fontawesome-free/css/all.min.css"); ?> rel="stylesheet" type="text/css">
+  <link href=<?php echo base_url("assets/vendor/fontawesome-free/css/all.min.css") ?> rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
   <!-- Theme CSS -->
   <link href=<?php echo base_url("assets/css/freelancer.min.css") ?> rel="stylesheet">
+
+  <!-- Codebase Core JS -->
+  <script src=<?php echo base_url('assets/js/plugins/sweetalert2/sweetalert.min.js') ?>></script>
+
+
 
 </head>
 
@@ -25,7 +47,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">{NAMA PENYEDIA LAPANGAN}</a>
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">{NAMA PROVIDER}</a>
       <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -33,7 +55,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Daftar Lapangan</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#lapangan">Daftar Lapangan</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Tentang</a>
@@ -42,14 +64,27 @@
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Kontak</a>
           </li>
         </ul>
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href=<?php echo base_url("login") ?>>Login</a>
-					</li>
-					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href=<?php echo base_url("daftar") ?>>Daftar</a>
-					</li>
-				</ul>
+        <?php if ($this->session->userdata('isLogin') == 0): ?>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="btn btn-sm btn-secondary py-3 px-0 px-lg-3" href=<?php echo base_url("login") ?> style="font-weight:700;">Login</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="btn btn-sm btn-secondary py-3 px-0 px-lg-3" href=<?php echo base_url("daftar") ?> style="font-weight:700;">Daftar</a>
+            </li>
+          </ul>
+        <?php endif; ?>
+        <?php if ($this->session->userdata('isLogin') == 1): ?>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="btn btn-sm btn-secondary py-3 px-0 px-lg-3" href=<?php echo base_url("{$dashboard}") ?> style="font-weight:700;">Dashboard</a>
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="btn btn-sm btn-secondary py-3 px-0 px-lg-3" href=<?php echo base_url("logout") ?> style="font-weight:700;">Logout</a>
+            </li>
+          </ul>
+        <?php endif; ?>
+
       </div>
     </div>
   </nav>
@@ -59,10 +94,12 @@
     <div class="container d-flex align-items-center flex-column">
 
       <!-- Masthead Avatar Image -->
-      <img class="masthead-avatar mb-5" src="img/ava.png" alt="">
+      <div class="row justify-content-center pb-3 px-5">
+        <img src=<?php echo base_url("assets/img/logoprovider/pro_campnou.png") ?> alt="logo provider" width="150px">
+      </div>
 
       <!-- Masthead Heading -->
-      <h1 class="masthead-heading text-uppercase mb-0">{NAMA PENYEDIA LAPANGAN}</h1>
+      <h1 class="masthead-heading text-uppercase mb-0">{NAMA PROVIDER}</h1>
 
       <!-- Icon Divider -->
       <div class="divider-custom divider-light">
@@ -74,16 +111,16 @@
       </div>
 
       <!-- Masthead Subheading -->
-      <p class="masthead-subheading font-weight-light mb-0">{LOKASI LAPANGAN}</p>
+      <p class="masthead-subheading font-weight-light mb-0">{LOKASI PROVIDER}</p>
 
     </div>
   </header>
 
-  <!-- Portfolio Section -->
-  <section class="page-section portfolio" id="portfolio">
+  <!-- lapangan Section -->
+  <section class="page-section portfolio" id="lapangan">
     <div class="container">
 
-      <!-- Portfolio Section Heading -->
+      <!-- lapangan Section Heading -->
       <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Daftar Lapangan</h2>
 
       <!-- Icon Divider -->
@@ -95,12 +132,12 @@
         <div class="divider-custom-line"></div>
       </div>
 
-      <!-- Portfolio Grid Items -->
+      <!-- lapangan Grid Items -->
       <div class="row">
 
-        <!-- Portfolio Item 1 -->
+        <!-- lapangan Item 1 -->
         <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#lapanganModal1">
             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
               <div class="portfolio-item-caption-content text-center text-white">
                 <i class="fas fa-plus fa-3x"></i>
@@ -110,9 +147,9 @@
           </div>
         </div>
 
-        <!-- Portfolio Item 2 -->
+        <!-- lapangan Item 2 -->
         <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
+          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#lapanganModal2">
             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
               <div class="portfolio-item-caption-content text-center text-white">
                 <i class="fas fa-plus fa-3x"></i>
@@ -122,9 +159,9 @@
           </div>
         </div>
 
-        <!-- Portfolio Item 3 -->
+        <!-- lapangan Item 3 -->
         <div class="col-md-6 col-lg-4">
-          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
+          <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#lapanganModal3">
             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
               <div class="portfolio-item-caption-content text-center text-white">
                 <i class="fas fa-plus fa-3x"></i>
@@ -168,7 +205,7 @@
 
       <!-- About Section Button -->
       <div class="text-center mt-4">
-        <a class="btn btn-xl btn-outline-light" href="https://ringkes.in">
+        <a class="btn btn-xl btn-outline-light" href="http://ringkes.in">
           <i class="fas fa-download mr-2"></i>
           Bonjour !
         </a>
@@ -292,12 +329,10 @@
     </a>
   </div>
 
+  <!-- lapangan Modals -->
 
-
-  <!-- Portfolio Modals -->
-
-  <!-- Portfolio Modal 1 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+  <!-- lapangan Modal 1 -->
+  <div class="portfolio-modal modal fade" id="lapanganModal1" tabindex="-1" role="dialog" aria-labelledby="lapanganModal1Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -309,7 +344,7 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <!-- Portfolio Modal - Title -->
+                <!-- lapangan Modal - Title -->
                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">SynThesis</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom">
@@ -319,9 +354,9 @@
                   </div>
                   <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Modal - Image -->
-                <img class="img-fluid" src=<?php echo base_url("assets/img/lapangan/1.png") ?> alt="">
-                <!-- Portfolio Modal - Text -->
+                <!-- lapangan Modal - Image -->
+                <img class="img-fluid rounded mb-5" src="assets/img/lapangan/1.png" alt="">
+                <!-- lapangan Modal - Text -->
                 <p class="mb-5">Lapngan ini enak dipake buat beduaan apalagi buat ngentot</p>
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
                   <i class="fas fa-times fa-fw"></i>
@@ -335,8 +370,8 @@
     </div>
   </div>
 
-  <!-- Portfolio Modal 2 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-labelledby="portfolioModal2Label" aria-hidden="true">
+  <!-- lapangan Modal 2 -->
+  <div class="portfolio-modal modal fade" id="lapanganModal2" tabindex="-1" role="dialog" aria-labelledby="lapanganModal2Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -348,7 +383,7 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <!-- Portfolio Modal - Title -->
+                <!-- lapangan Modal - Title -->
                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Vynyl</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom">
@@ -358,9 +393,9 @@
                   </div>
                   <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Modal - Image -->
-                <img class="img-fluid" src=<?php echo base_url("assets/img/lapangan/2.png") ?> alt="">
-                <!-- Portfolio Modal - Text -->
+                <!-- lapangan Modal - Image -->
+                <img class="img-fluid rounded mb-5" src="assets/img/lapangan/2.png" alt="">
+                <!-- lapangan Modal - Text -->
                 <p class="mb-5">Lapangan ini juga enak dipake ngentot</p>
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
                   <i class="fas fa-times fa-fw"></i>
@@ -374,8 +409,8 @@
     </div>
   </div>
 
-  <!-- Portfolio Modal 3 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-labelledby="portfolioModal3Label" aria-hidden="true">
+  <!-- lapangan Modal 3 -->
+  <div class="portfolio-modal modal fade" id="lapanganModal3" tabindex="-1" role="dialog" aria-labelledby="lapanganModal3Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -387,7 +422,7 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <!-- Portfolio Modal - Title -->
+                <!-- lapangan Modal - Title -->
                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Interlock</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom">
@@ -397,9 +432,9 @@
                   </div>
                   <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Modal - Image -->
-                <img class="img-fluid" src=<?php echo base_url("assets/img/lapangan/3.png") ?> alt="">
-                <!-- Portfolio Modal - Text -->
+                <!-- lapangan Modal - Image -->
+                <img class="img-fluid rounded mb-5" src="assets/img/lapangan/3.png" alt="">
+                <!-- lapangan Modal - Text -->
                 <p class="mb-5">Enaknya buat cuddling inimahsi</p>
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
                   <i class="fas fa-times fa-fw"></i>
@@ -413,8 +448,8 @@
     </div>
   </div>
 
-  <!-- Portfolio Modal 4 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-labelledby="portfolioModal4Label" aria-hidden="true">
+  <!-- lapangan Modal 4 -->
+  <div class="portfolio-modal modal fade" id="lapanganModal4" tabindex="-1" role="dialog" aria-labelledby="lapanganModal4Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -426,7 +461,7 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <!-- Portfolio Modal - Title -->
+                <!-- lapangan Modal - Title -->
                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Controller</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom">
@@ -436,9 +471,9 @@
                   </div>
                   <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Modal - Image -->
-                <img class="img-fluid rounded mb-5" src="img/portfolio/game.png" alt="">
-                <!-- Portfolio Modal - Text -->
+                <!-- lapangan Modal - Image -->
+                <img class="img-fluid rounded mb-5" src="assets/img/lapangan/game.png" alt="">
+                <!-- lapangan Modal - Text -->
                 <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
                   <i class="fas fa-times fa-fw"></i>
@@ -452,8 +487,8 @@
     </div>
   </div>
 
-  <!-- Portfolio Modal 5 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-labelledby="portfolioModal5Label" aria-hidden="true">
+  <!-- lapangan Modal 5 -->
+  <div class="portfolio-modal modal fade" id="lapanganModal5" tabindex="-1" role="dialog" aria-labelledby="lapanganModal5Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -465,7 +500,7 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <!-- Portfolio Modal - Title -->
+                <!-- lapangan Modal - Title -->
                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Locked Safe</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom">
@@ -475,9 +510,9 @@
                   </div>
                   <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Modal - Image -->
-                <img class="img-fluid rounded mb-5" src="img/portfolio/safe.png" alt="">
-                <!-- Portfolio Modal - Text -->
+                <!-- lapangan Modal - Image -->
+                <img class="img-fluid rounded mb-5" src="assets/img/lapangan/safe.png" alt="">
+                <!-- lapangan Modal - Text -->
                 <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
                   <i class="fas fa-times fa-fw"></i>
@@ -491,8 +526,8 @@
     </div>
   </div>
 
-  <!-- Portfolio Modal 6 -->
-  <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-labelledby="portfolioModal6Label" aria-hidden="true">
+  <!-- lapangan Modal 6 -->
+  <div class="portfolio-modal modal fade" id="lapanganModal6" tabindex="-1" role="dialog" aria-labelledby="lapanganModal6Label" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -504,7 +539,7 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-lg-8">
-                <!-- Portfolio Modal - Title -->
+                <!-- lapangan Modal - Title -->
                 <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Submarine</h2>
                 <!-- Icon Divider -->
                 <div class="divider-custom">
@@ -514,9 +549,9 @@
                   </div>
                   <div class="divider-custom-line"></div>
                 </div>
-                <!-- Portfolio Modal - Image -->
-                <img class="img-fluid rounded mb-5" src="img/portfolio/submarine.png" alt="">
-                <!-- Portfolio Modal - Text -->
+                <!-- lapangan Modal - Image -->
+                <img class="img-fluid rounded mb-5" src="assets/img/lapangan/submarine.png" alt="">
+                <!-- lapangan Modal - Text -->
                 <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
                 <button class="btn btn-primary" href="#" data-dismiss="modal">
                   <i class="fas fa-times fa-fw"></i>
@@ -530,20 +565,44 @@
     </div>
   </div>
 
-	<!-- Bootstrap core JavaScript-->
+  <!-- sweetalert modal notification -->
+  <?php if ($this->session->flashdata('success_message')): ?>
+    <script>
+    swal({
+      title: "<?php echo $this->session->title; ?>",
+      text: "<?php echo $this->session->text; ?>",
+      timer: 3000,
+      button: false,
+      icon: 'success'
+    });
+    </script>
+  <?php endif; ?>
+  <?php if ($this->session->flashdata('failed_message')): ?>
+    <script>
+      swal({
+         title: "<?php echo $this->session->title; ?>",
+         text: "<?php echo $this->session->text; ?>",
+         timer: 3000,
+         button: false,
+         icon: 'error'
+      });
+    </script>
+  <?php endif; ?>
+  <!-- sweetalert end -->
+
+  <!-- Bootstrap core JavaScript-->
   <script src=<?php echo base_url("assets/template/sbadmin/vendor/jquery/jquery.min.js"); ?>></script>
   <script src=<?php echo base_url("assets/template/sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"); ?>></script>
 
   <!-- Core plugin JavaScript-->
   <script src=<?php echo base_url("assets/template/sbadmin/vendor/jquery-easing/jquery.easing.min.js"); ?>></script>
 
-<!-- ++++++++++++++++++++++++++++++++++++++ -->
   <!-- Contact Form JavaScript -->
-  <script src=<?php echo base_url("assets/js/jqBootstrapValidation.js"); ?>></script>
-  <script src=<?php echo base_url("assets/js/contact_me.js"); ?>></script>
+  <script src=<?php echo base_url("assets/js/jqBootstrapValidation.js") ?>></script>
+  <script src=<?php echo base_url("assets/js/contact_me.js") ?>></script>
 
   <!-- Custom scripts for this template -->
-  <script src=<?php echo base_url("assets/js/freelancer.min.js"); ?>></script>
+  <script src=<?php echo base_url("assets/js/freelancer.min.js") ?>></script>
 
 </body>
 

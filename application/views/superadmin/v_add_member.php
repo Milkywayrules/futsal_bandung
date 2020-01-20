@@ -16,7 +16,7 @@
                               <div class="form-group row">
                                   <label class="col-lg-4 col-form-label" >Username <sup>*</sup> </label>
                                   <div class="col-lg-8">
-                                      <input type="text" id="username" class="form-control <?php if(form_error('username') !== ''){ echo 'is-invalid'; } ?>" name="username" placeholder="Username" required>
+                                      <input type="text" id="username" class="form-control <?php if(form_error('username') !== ''){ echo 'is-invalid'; } ?>" name="username" placeholder="Username" required autofocus>
                                       <div class="form-text text-danger"><?php echo form_error('username') ?></div>
                                   </div>
                               </div>
@@ -43,16 +43,16 @@
                                 </div>
                               </div>
                               <div class="form-group row">
-                                <label class="col-lg-4 col-form-label" >Nomor Telepon <sup>*</sup> </label>
+                                <label class="col-lg-4 col-form-label" >Nomor Telepon </label>
                                 <div class="col-lg-8">
-                                  <input type="text" id="telepon" class="form-control <?php if(form_error('telepon') !== ''){ echo 'is-invalid'; } ?>" name="telepon" placeholder="Nomor Telepon" required>
+                                  <input type="text" id="telepon" class="form-control <?php if(form_error('telepon') !== ''){ echo 'is-invalid'; } ?>" name="no_telepon" placeholder="Nomor Telepon">
                                   <div class="form-text text-danger"><?php echo form_error('telepon') ?></div>
                                 </div>
                               </div>
                               <div class="form-group row">
-                                  <label class="col-lg-4 col-form-label" >Alamat <sup>*</sup> </label>
+                                  <label class="col-lg-4 col-form-label" >Alamat </label>
                                   <div class="col-lg-8">
-                                      <input type="text" id="alamat" class="form-control <?php if(form_error('alamat') !== ''){ echo 'is-invalid'; } ?>" name="alamat" placeholder="Alamat Sekarang" required>
+                                      <input type="text" id="alamat" class="form-control <?php if(form_error('alamat') !== ''){ echo 'is-invalid'; } ?>" name="alamat" placeholder="Alamat Sekarang">
                                       <div class="form-text text-danger"><?php echo form_error('alamat') ?></div>
                                   </div>
                               </div>

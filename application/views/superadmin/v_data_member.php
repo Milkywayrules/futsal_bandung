@@ -33,7 +33,7 @@
                       <th width='25%'>Nama Lengkap</th>
                       <th width='20%'>Username</th>
                       <th width='25%'>E-mail</th>
-                      <th width='10%'>Aksi</th>
+                      <th width='12%'>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -47,7 +47,7 @@
                         <td><?php echo $member->email ?></td>
                         <td class="">
                           <a href=<?php echo current_url() . "/detail/{$member->username}" ?> class="btn-sm btn-primary my-1 text-decoration-none">Detail</a>
-                          <a href=<?php echo current_url() . "/edit/{$member->username}" ?> class="btn-sm btn-info my-1 text-decoration-none">Edit</a>
+                          <a href=<?php echo current_url() . "/edit/{$member->username}" ?> class="btn-sm btn-info my-1 text-decoration-none">Ubah</a>
                         </td>
                       </tr>
                     <?php endforeach; ?>
